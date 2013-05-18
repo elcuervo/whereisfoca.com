@@ -21,7 +21,7 @@
        width: 147px;
        height: 166px;
        position: absolute;
-       right: 30px;
+       left: 50px;
        top: 0;
        z-index: 2;
      }
@@ -34,9 +34,20 @@
        background: rgba(0, 0, 0, 0.2);
        padding: 3px
      }
+
+     .ribbon {
+       position: absolute;
+       top: 0;
+       right: 0;
+       border: 0;
+       z-index: 2
+     }
    </style>
 </head>
 <body>
+  <a href="https://github.com/elcuervo/whereisfoca.com">
+    <img class="ribbon" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+  </a>
     <div id="logo">
       <img src="/img/logo.png" alt="Where is foca?" />
       <div id="status"> Finding foca </div>
@@ -58,8 +69,6 @@
       var marker = L.marker(coordinates).addTo(map);
       var message = "<img src='http://www.gravatar.com/avatar/de03af350d099d28a0dd223ed5ffdd37?s=70'><br>";
       message += "<b>Foca</b> is in " + data.name + "<br>Give him a hug!.";
-
-      console.log(marker);
 
       layer.fire('data:loaded');
       $("#status").animate({ opacity: 0 }, 500);
