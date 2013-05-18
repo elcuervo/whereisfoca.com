@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Where is foca?</title>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+  <![endif]-->
+   <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+   <script src="http://fgnass.github.io/spin.js/dist/spin.min.js"></script>
+   <script src="/js/leaflet.spin.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script>
+   <style type="text/css">
+     .leaflet-popup-content { text-align: center }
+     body {
+       padding: 0;
+       margin: 0
+     }
+     #logo {
+       width: 147px;
+       height: 166px;
+       position: absolute;
+       right: 30px;
+       top: 0;
+       z-index: 2;
+     }
+     #map { height: 580px; }
+     #status {
+       text-align: center;
+       font-family: Helvetica;
+       font-weight: bold;
+       color: white;
+       text-shadow:
+         -3px -3px 0 #000,
+         3px -3px 0 #000,
+         -3px 3px 0 #000,
+         3px 3px 0 #000;
+     }
+   </style>
+</head>
+<body>
+    <div id="logo">
+      <img src="/img/logo.png" alt="Where is foca?" />
+      <div id="status"> Finding foca </div>
+    </div>
+   <div id="map"></div>
+   <script type="text/javascript">
+     var map = L.map('map').setView([-34.905944, -56.191556], 13);
+     L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{style}/256/{z}/{x}/{y}.png', {
+       maxZoom: 18,
+       key: "4b1da5c6d9504b42a833c9b04689ff7b",
+       style: 997
+     }).addTo(map);
+
+    var layer = L.geoJson(null).addTo(map);
+    layer.fire('data:loading');
+
+    $.getJSON("/where", function(data) {
+      var coordinates = [data.latitude, data.longitude];
+      var marker = L.marker(coordinates).addTo(map);
+      var message = "<img src='http://www.gravatar.com/avatar/de03af350d099d28a0dd223ed5ffdd37?s=70'><br>";
+      message += "<b>Foca</b> is in " + data.name + "<br>Give him a hug!.";
+
+      console.log(marker);
+
+      layer.fire('data:loaded');
+      $("#status").animate({ opacity: 0 }, 500);
+      marker.bindPopup(message).openPopup();
+      map.panTo(coordinates);
+    })
+   </script>
+</body>
+</html>
