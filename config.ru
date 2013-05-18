@@ -31,7 +31,7 @@ Cuba.define do
     here = Geocoder.search("#{coordinates.latitude},#{coordinates.longitude}")
     city_info = here.first
     # Use city coordinates and no the Instagram ones. We want to know where is
-    # foca not sending him a nuclear strike.
+    # foca not send him a nuclear strike.
     latitude, longitude = city_info.coordinates
 
     {
@@ -41,12 +41,16 @@ Cuba.define do
     }
   end
 
-  on root do
-    res.write render("views/home.erb")
+  def json_call?
+    req.content_type == "application/json"
   end
 
-  on "where" do
+  on json_call? || "where" do
     res.write city(here_is_foca).to_json
+  end
+
+  on root do
+    res.write render("views/home.erb")
   end
 end
 
