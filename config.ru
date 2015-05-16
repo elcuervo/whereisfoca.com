@@ -10,7 +10,6 @@ Cuba.define do
   settings[:foca_id] = ENV["FOCA_INSTAGRAM_ID"]
   settings[:access_token] = ENV["INSTAGRAM_ACCESS_TOKEN"]
 
-
   def here_is_foca
     client = Instagram.client(access_token: settings[:access_token])
     foca_media = client.user_recent_media(settings[:foca_id])
