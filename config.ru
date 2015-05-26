@@ -31,7 +31,8 @@ Cuba.define do
     city_info = here.first
     # Use city coordinates and no the Instagram ones. We want to know where is
     # foca not send him a nuclear strike.
-    latitude, longitude = city_info.coordinates
+    city_location = Geocoder.search(city_info.city).first
+    latitude, longitude = city_location.coordinates
 
     {
       latitude:  latitude,
